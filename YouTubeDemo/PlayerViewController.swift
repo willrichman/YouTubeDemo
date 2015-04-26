@@ -18,22 +18,31 @@ class PlayerViewController: UIViewController {
         "autohide" : 1,
         "showinfo" : 0,
         "modestbranding" : 1,
-        "loop" : 1,
-        "playlist" : "Veg63B8ofnQ"
+//        "loop" : 1,
+//        "playlist" : "Veg63B8ofnQ"
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.setNeedsStatusBarAppearanceUpdate()
 
         self.playerView.loadWithVideoId("Veg63B8ofnQ", playerVars: playerVars as [NSObject : AnyObject])
         
     }
+    
+    // MARK: Status bar functions
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent;
     }
-
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return false;
+    }
+    
+    // MARK: IBAction functions
+    
+    @IBAction func pressedNewVideo(sender: AnyObject) {
+    }
 }
 

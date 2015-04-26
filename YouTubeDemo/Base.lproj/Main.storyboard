@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Player View Controller-->
@@ -20,23 +20,75 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CaY-UQ-kQR" customClass="YTPlayerView">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="CaY-UQ-kQR" secondAttribute="height" multiplier="16:9" id="OjL-Vc-jDE"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="OjL-Vc-jDE"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="OjL-Vc-jDE"/>
+                                    </mask>
+                                </variation>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YYr-sU-qwQ">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="24"/>
+                                <state key="normal" title="New Cat Video">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="pressedNewVideo:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="On1-vW-9j6"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.36862745099999999" green="0.42352941179999998" blue="0.62745098040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="CaY-UQ-kQR" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="APG-bY-iSO"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="CaY-UQ-kQR" secondAttribute="bottom" id="SVh-PF-TN1"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="CaY-UQ-kQR" secondAttribute="trailing" constant="-16" id="bPC-Ar-a0D"/>
-                            <constraint firstItem="CaY-UQ-kQR" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="dck-os-w2o"/>
+                            <constraint firstItem="CaY-UQ-kQR" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="16" id="KfG-m5-jKz"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="YYr-sU-qwQ" secondAttribute="bottom" constant="20" id="Ql3-9A-Gna"/>
+                            <constraint firstAttribute="centerX" secondItem="CaY-UQ-kQR" secondAttribute="centerX" constant="-15" id="Xh5-9h-f29">
+                                <variation key="heightClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="CaY-UQ-kQR" secondAttribute="bottom" constant="90" id="Zzv-LQ-tfv"/>
+                            <constraint firstAttribute="centerX" secondItem="YYr-sU-qwQ" secondAttribute="centerX" id="nEt-JW-prU"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="YYr-sU-qwQ"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="KfG-m5-jKz"/>
+                                <exclude reference="Xh5-9h-f29"/>
+                                <exclude reference="Ql3-9A-Gna"/>
+                                <exclude reference="Zzv-LQ-tfv"/>
+                                <exclude reference="nEt-JW-prU"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact">
+                            <mask key="subviews">
+                                <include reference="YYr-sU-qwQ"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="KfG-m5-jKz"/>
+                                <include reference="Xh5-9h-f29"/>
+                                <include reference="Ql3-9A-Gna"/>
+                                <include reference="Zzv-LQ-tfv"/>
+                                <include reference="nEt-JW-prU"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="playerView" destination="CaY-UQ-kQR" id="8bt-FB-0Q1"/>
+                        <outlet property="pressedNewVideo" destination="YYr-sU-qwQ" id="pJQ-ri-I3Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="861" y="368"/>
+            <point key="canvasLocation" x="861" y="367.5"/>
         </scene>
     </scenes>
 </document>
