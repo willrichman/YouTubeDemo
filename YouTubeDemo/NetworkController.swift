@@ -10,8 +10,8 @@ import UIKit
 
 class NetworkController {
     
-    let baseURL = "https://www.googleapis.com/youtube/v3/search"
-    let APIKey = "AIzaSyCjepqbIjcTQnnsKzoiAPZDeueEaUyBCow"
+    let baseURL = "https://www.googleapis.com/youtube/v3/search?"
+    let APIKey = "AIzaSyBtoPigv6suBrZah8c-w0aVlXpGZEMKXvc"
     
     let baseTime: Double = 1114214400 - NSTimeIntervalSince1970 // Day of first YouTube video
     let timeInterval: Double = 2629740  // Approximately one month
@@ -36,23 +36,28 @@ class NetworkController {
     
     init() {
         self.RFC3339DateFormatter.locale = enUSPOSIXLocale
-        self.RFC3339DateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
+        self.RFC3339DateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH'%3A'mm'%3A'ss'Z'"
         self.RFC3339DateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-        let currentDate = NSDate().timeIntervalSince1970
+        let currentDate = NSDate().timeIntervalSinceReferenceDate
         self.maxTime = currentDate - self.timeInterval
     }
     
     // MARK: Video retrieval functions
     
-    func returnRandomVideoID(completionHandler: (errorDescription: String?) -> Void) -> String? {
+    func returnRandomVideoID(completionHandler: (id: String?, errorDescription: String?) -> Void) {
         var videoToPlay: String?
         if self.notYetPlayed.isEmpty {
             populateRandomVideoSet({ (errorDescription) -> Void in
-                if errorDescription != nil {
+                if errorDescription == nil {
                     let randomIndex = Int(arc4random_uniform(UInt32(self.notYetPlayed.count - 1)))
                     videoToPlay = self.notYetPlayed[randomIndex]
                     self.notYetPlayed.removeAtIndex(randomIndex)
                     self.alreadyPlayed[videoToPlay!] = true
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        completionHandler(id: videoToPlay, errorDescription: errorDescription)
+                    })
+                } else {
+                    completionHandler(id: nil, errorDescription: errorDescription)
                 }
             })
         } else {
@@ -60,9 +65,8 @@ class NetworkController {
             videoToPlay = self.notYetPlayed[randomIndex]
             self.notYetPlayed.removeAtIndex(randomIndex)
             self.alreadyPlayed[videoToPlay!] = true
-            
+            completionHandler(id: videoToPlay, errorDescription: nil)
         }
-        return videoToPlay
     }
     
     func populateRandomVideoSet(completionHandler: (errorDescription: String?) -> Void) {
@@ -85,7 +89,7 @@ class NetworkController {
                     case 200...299:
                         println("Success!!")
                         let newArray = self.parseJSONIntoArray(data)
-                        if newArray != nil {
+                        if newArray != nil && !newArray!.isEmpty {
                             self.notYetPlayed = newArray!
                             completionHandler(errorDescription: nil)
                         } else {
@@ -107,6 +111,7 @@ class NetworkController {
                 println("Something bad happened")
             }
         })
+        task.resume()
     }
     
     func returnRandomMonth() -> (String?, String?) {
@@ -121,6 +126,20 @@ class NetworkController {
     }
     
     func parseJSONIntoArray(rawJSONData: NSData) -> [String]? {
+        var error : NSError?
+        if let JSONDictionary = NSJSONSerialization.JSONObjectWithData(rawJSONData, options: nil, error: &error) as? NSDictionary {
+            if let itemsArray = JSONDictionary["items"] as? NSArray {
+                var returnedArray = [String]()
+                for item in itemsArray {
+                    if let idDictionary = item["id"] as? NSDictionary {
+                        let videoId = idDictionary["videoId"] as! String
+                        returnedArray.append(videoId)
+                    }
+
+                }
+                return returnedArray
+            }
+        }
         return nil
     }
 }

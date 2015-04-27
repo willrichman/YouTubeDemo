@@ -25,8 +25,15 @@ class PlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setNeedsStatusBarAppearanceUpdate()
+        NetworkController.controller.returnRandomVideoID { (id, errorDescription) -> Void in
+            if errorDescription != nil {
+                println(errorDescription)
+            } else {
+                self.playerView.loadWithVideoId(id!, playerVars: self.playerVars as [NSObject : AnyObject])
 
-        self.playerView.loadWithVideoId("Veg63B8ofnQ", playerVars: playerVars as [NSObject : AnyObject])
+            }
+        }
+//        self.playerView.loadWithVideoId("Veg63B8ofnQ", playerVars: playerVars as [NSObject : AnyObject])
         
     }
     
