@@ -1,4 +1,4 @@
-//
+    //
 //  PlayerViewController.swift
 //  YouTubeDemo
 //
@@ -9,22 +9,24 @@
 import UIKit
 import youtube_ios_player_helper
 
-class PlayerViewController: UIViewController {
+class PlayerViewController: UIViewController, YTPlayerViewDelegate {
 
     @IBOutlet weak var playerView: YTPlayerView!
     
-    let playerVars: NSDictionary = ["controls":0,
+    let playerVars: NSMutableDictionary = [
+        "autoplay" : 1,
+        "rel" : 0,
+        "controls":0,
         "playsinline" : 1,
         "autohide" : 1,
         "showinfo" : 0,
         "modestbranding" : 1,
-//        "loop" : 1,
-//        "playlist" : "Veg63B8ofnQ"
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setNeedsStatusBarAppearanceUpdate()
+        self.playerView.delegate = self
         NetworkController.controller.returnRandomVideoID { (id, errorDescription) -> Void in
             if errorDescription != nil {
                 println(errorDescription)
@@ -33,7 +35,6 @@ class PlayerViewController: UIViewController {
 
             }
         }
-//        self.playerView.loadWithVideoId("Veg63B8ofnQ", playerVars: playerVars as [NSObject : AnyObject])
         
     }
     
@@ -50,6 +51,30 @@ class PlayerViewController: UIViewController {
     // MARK: IBAction functions
     
     @IBAction func pressedNewVideo(sender: AnyObject) {
+        self.playerView.stopVideo()
+        NetworkController.controller.returnRandomVideoID { (id, errorDescription) -> Void in
+            if errorDescription != nil {
+                println(errorDescription)
+            } else {
+                self.playerView.loadVideoById(id!, startSeconds: 0, suggestedQuality: YTPlaybackQuality.Large)
+            }
+        }
+    }
+    
+    // MARK: YTPlayerViewDelegate functions
+
+    func playerView(playerView: YTPlayerView!, didChangeToState state: YTPlayerState) {
+        println(state.value)
+        if state.value == 1 {
+            self.playerView.stopVideo()
+            NetworkController.controller.returnRandomVideoID { (id, errorDescription) -> Void in
+                if errorDescription != nil {
+                    println(errorDescription)
+                } else {
+                    self.playerView.loadVideoById(id!, startSeconds: 0, suggestedQuality: YTPlaybackQuality.Large)
+                }
+            }
+        }
     }
 }
 

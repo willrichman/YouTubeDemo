@@ -194,6 +194,7 @@
 				TargetAttributes = {
 					156387421AEAED020096EDA0 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 8HN2GJXMB7;
 					};
 					156387571AEAED020096EDA0 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -424,6 +425,7 @@
 			baseConfigurationReference = C9ECEBBCF2495368DAD27FC6 /* Pods-YouTubeDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = YouTubeDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -436,6 +438,7 @@
 			baseConfigurationReference = 40F91926FAA9EB33C59F6548 /* Pods-YouTubeDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = YouTubeDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

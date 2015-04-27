@@ -28,7 +28,7 @@ typedef enum {
 } YTPlayerState;
 
 /** These enums represent the resolution of the currently loaded video. */
-typedef enum {
+typedef NS_ENUM(NSInteger, YTPlaybackQuality){
     kYTPlaybackQualitySmall,
     kYTPlaybackQualityMedium,
     kYTPlaybackQualityLarge,
@@ -36,7 +36,7 @@ typedef enum {
     kYTPlaybackQualityHD1080,
     kYTPlaybackQualityHighRes,
     kYTPlaybackQualityUnknown /** This should never be returned. It is here for future proofing. */
-} YTPlaybackQuality;
+};
 
 /** These enums represent error codes thrown by the player. */
 typedef enum {

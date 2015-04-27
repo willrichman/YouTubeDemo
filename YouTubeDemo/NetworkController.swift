@@ -11,7 +11,7 @@ import UIKit
 class NetworkController {
     
     let baseURL = "https://www.googleapis.com/youtube/v3/search?"
-    let APIKey = "AIzaSyBtoPigv6suBrZah8c-w0aVlXpGZEMKXvc"
+    let APIKey = "AIzaSyCjepqbIjcTQnnsKzoiAPZDeueEaUyBCow"
     
     let baseTime: Double = 1114214400 - NSTimeIntervalSince1970 // Day of first YouTube video
     let timeInterval: Double = 2629740  // Approximately one month
@@ -39,7 +39,8 @@ class NetworkController {
         self.RFC3339DateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH'%3A'mm'%3A'ss'Z'"
         self.RFC3339DateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
         let currentDate = NSDate().timeIntervalSinceReferenceDate
-        self.maxTime = currentDate - self.timeInterval
+        self.maxTime = currentDate - self.timeInterval         // The latest possible date range will be the past month
+        
     }
     
     // MARK: Video retrieval functions
@@ -71,7 +72,7 @@ class NetworkController {
     
     func populateRandomVideoSet(completionHandler: (errorDescription: String?) -> Void) {
         // Returns and populates an array of video IDs from a random month
-        let baseQuery = "key=" + APIKey + "&q=cats&part=id&type=video&videoDuration=short&videoEmbeddable=true&maxResults=25"
+        let baseQuery = "key=" + APIKey + "&q=funny+cats&part=id&type=video&videoDuration=short&videoEmbeddable=true&maxResults=25"
         let monthTuple = returnRandomMonth()
         let startDate = monthTuple.0
         let endDate = monthTuple.1
